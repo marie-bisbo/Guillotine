@@ -107,3 +107,19 @@ With the Vue CLI it is really easy to create a new Vue App, just run:
 from inside your django project (what you created when you ran `startproject). To start,
 you can stick with the default configurations by pressing `enter` until it starts to install.
 
+### Mapping the urls
+
+In django, you need to provide pages (known as views) for the site to display at certain urls. This is specified in `views.py`
+and `urls.py`. `urls.py` should already be there, so make a new file and call it `views.py`. In it, add the following:
+
+```
+from django.views.generic import TemplateView
+
+
+class IndexView(TemplateView):
+    template_name = "index.html"
+```
+
+This will render an html file as a template at a url that we will specify. In this case, `index.html` has already been created
+in our `frontend` directory by Vue, and we have specified in `settings.py` that django should look for templates
+in `frontend/public`, which is exactly where Vue has put the `index.html` file.
