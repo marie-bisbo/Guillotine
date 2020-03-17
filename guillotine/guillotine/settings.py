@@ -22,6 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "_!_l6gb8$8i0n8q468v5o9ij@^cn^3v80r&dd7e&zg8g9)ceef"
 
+LOGIN_URL = "/accounts/login"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "webpack_loader",
+    "accounts",
 ]
 
 MIDDLEWARE = [
