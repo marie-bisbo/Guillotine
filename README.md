@@ -94,3 +94,16 @@ WEBPACK_LOADER = {
 }
 ```
 
+### Installing Vue
+
+For this project, we will be installing the Vue CLI using npm. Run the command:
+
+`sudo npm install -g @vue/cli`
+
+With the Vue CLI it is really easy to create a new Vue App, just run:
+
+`vue create frontend`
+
+from inside your django project (what you created when you ran `startproject). To start,
+you can stick with the default configurations by pressing `enter` until it starts to install.
+
