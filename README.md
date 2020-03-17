@@ -48,3 +48,49 @@ You can now get the site running with:
 Navigate to `http://127.0.0.1:8000/` and you should see django's default startpage. You can also go to
 the admin page at `http://127.0.0.1:8000/admin/` and log in with your superuser account.
 
+### Configuring the settings
+
+When running a django project, the first thing django does it goes through the `settings.py`
+file and applies any configurations in there. So that's where we need to store information about
+the structure of our project. Because we are planning to combine django with vue, with vue
+providing the frontend of our project, django needs to know what it needs to serve at any
+given time. 
+
+We start by setting the directories for our templates and the frontend by adding this to our `settings.py`:
+
+```
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+```
+
+We will be using `django-webpack-loader` to handle static bundles, so we need to make sure django
+knows about it by adding `webpack_loader` to `INSTALLED_APPS`.
+
+Next we want to tell django where to look for templates. When we setup vue, the template we need will
+be in `frontend/public`. So we add this path to the TEMPLATES section of `settings.py` under `DIRS`:
+
+`"DIRS: [os.path.join(BASE_DIR, "frontend", "public")]`
+
+We also need to give django a location for static files. Add the following to `settings.py`:
+
+```
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root/")
+STATICFILES_DIRS = [
+    os.path.join("frontend", FRONTEND_DIR, "dist"),
+    os.path.join("frontend", FRONTEND_DIR, "public"),
+]
+```
+
+Finally we need to add a configuration for `django-webpack-loader`, so add the following to `settings.py`:
+
+```
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "CACHE": DEBUG,
+        "BUNDLE_DIR_NAME": "/bundles/",  # must end with slash
+        "STATS_FILE": os.path.join(FRONTEND_DIR, "webpack-stats.json"),
+    }
+}
+```
+
