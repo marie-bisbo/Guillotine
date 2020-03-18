@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "webpack_loader",
     "accounts",
     "social_django",
+    "rest_framework",
 ]
 
 SOCIAL_AUTH_URL_NAMESPACE = "social"
@@ -134,6 +135,26 @@ STATICFILES_DIRS = [
     os.path.join("frontend", FRONTEND_DIR, "dist"),
     os.path.join("frontend", FRONTEND_DIR, "public"),
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    )
+}
+
+SOCIAL_AUTH_PIPELINE = (
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.user.get_username",
+    "social_core.pipeline.user.create_user",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+    "accounts.pipeline.get_avatar",
+)
 
 WEBPACK_LOADER = {
     "DEFAULT": {
