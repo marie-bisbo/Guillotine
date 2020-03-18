@@ -1,0 +1,36 @@
+version: "3.7"
+
+secrets:
+  tool_credentials:
+    file: ${GOOGLE_CREDENTIALS_GUILLOTINE}
+
+services:
+  web:
+    build:
+      context: .
+      target: django-dev
+    environment: 
+      - GOOGLE_CREDENTIALS_GUILLOTINE=/run/secrets/tool_credentials
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./guillotine:/guillotine:cached
+    ports:
+      - "8000:8000"
+    secrets:
+      - tool_credentials
+    depends_on:
+      - vue
+    restart: on-failure
+
+  vue:
+    build:
+      context: .
+      target: vue-dev
+    command: npm run serve
+    volumes:
+      - ./guillotine/frontend:/frontend:cached
+      - /frontend/node_modules
+    ports:
+      - '8080:8080'
+    restart: on-failure
