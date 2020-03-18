@@ -1,0 +1,17 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+    <title>Guillotine</title>
+</head>
+
+<body class="text-center">
+    <form class="form-signin mx-auto" action={% url 'social:begin' 'google-oauth2' %} method="post">
+        {% csrf_token %}
+        <h1 class="display-4 title-text mx-3 mb-5" style="min-wdith:270px; max-width:1200px">Guillotine</h1>
+        <button class="btn btn-lg btn-primary shadow px-5 py-3" type="submit">Sign in with Google</button>
+    </form>
+</body>

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,12 +24,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "_!_l6gb8$8i0n8q468v5o9ij@^cn^3v80r&dd7e&zg8g9)ceef"
 
 LOGIN_URL = "/accounts/login"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,7 +43,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "webpack_loader",
     "accounts",
+    "social_django",
 ]
+
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -132,3 +142,10 @@ WEBPACK_LOADER = {
         "STATS_FILE": os.path.join(FRONTEND_DIR, "webpack-stats.json"),
     }
 }
+
+creds_filepath = os.getenv("GOOGLE_CREDENTIALS_GUILLOTINE")
+with open(creds_filepath, "rb") as f:
+    creds_file = json.load(f)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = creds_file["web"]["client_id"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = creds_file["web"]["client_secret"]
